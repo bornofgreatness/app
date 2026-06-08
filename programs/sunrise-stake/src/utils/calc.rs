@@ -48,6 +48,22 @@ mod tests {
     }
 
     #[test]
+    fn proportional_scales_amount_by_ratio() {
+        assert_eq!(proportional(1_000, 250, 1_000).unwrap(), 250);
+        assert_eq!(proportional(9, 1, 3).unwrap(), 3);
+    }
+
+    #[test]
+    fn proportional_truncates_toward_zero() {
+        assert_eq!(proportional(10, 1, 3).unwrap(), 3);
+    }
+
+    #[test]
+    fn proportional_errors_on_u64_overflow() {
+        assert!(proportional(u64::MAX, u64::MAX, 1).is_err());
+    }
+
+    #[test]
     fn fill_quote_from_base_matches_pool_ratio() {
         assert_eq!(fill_quote_from_base(100, 1_000, 5_000).unwrap(), 500);
     }
