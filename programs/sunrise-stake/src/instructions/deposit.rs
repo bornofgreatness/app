@@ -93,6 +93,7 @@ pub struct Deposit<'info> {
 }
 
 pub fn deposit_handler(ctx: Context<Deposit>, lamports: u64) -> Result<()> {
+    require!(lamports > 0, crate::ErrorCode::InvalidCalculation);
     msg!("Checking liq_pool pool balance");
     let to_deposit_in_liq_pool = amount_to_be_deposited_in_liq_pool(ctx.accounts, lamports)?;
     let to_stake = lamports - to_deposit_in_liq_pool;
